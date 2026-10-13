@@ -1,0 +1,287 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #102b63;
+    --red: #ef233c;
+    --border: #dce3ec;
+    --muted: #657187;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #18243b;
+    background: linear-gradient(145deg, #f7fbff, #fffaf7, #f0faf8);
+}
+
+.site-header {
+    text-align: center;
+    padding: 30px 16px;
+    background:
+        radial-gradient(ellipse at top left, #d3f1e8, transparent 40%),
+        radial-gradient(ellipse at top right, #ffe6d7, transparent 38%);
+}
+
+.heart {
+    color: var(--red);
+    font-size: 65px;
+}
+
+.site-header h1 {
+    color: var(--navy);
+    font-size: clamp(1.5rem, 4vw, 2.7rem);
+}
+
+.site-header h1 span {
+    color: var(--red);
+}
+
+.site-header p {
+    color: var(--navy);
+}
+
+.tagline {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+.container {
+    width: min(100% - 28px, 950px);
+    margin: 25px auto;
+}
+
+.panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(18px, 3vw, 32px);
+    margin-bottom: 25px;
+    box-shadow: 0 12px 35px #102b6310;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h2, h3 {
+    color: var(--navy);
+}
+
+.muted, .small-note {
+    color: var(--muted);
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font: inherit;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 3px solid #bfdbfe;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.wide {
+    grid-column: 1 / -1;
+}
+
+.primary-button, .secondary-button, .sos-button {
+    display: inline-block;
+    cursor: pointer;
+    border: 0;
+    border-radius: 11px;
+    padding: 13px 18px;
+    margin: 8px 6px 8px 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.primary-button {
+    background: var(--navy);
+    color: white;
+}
+
+.secondary-button {
+    background: #eaf0fb;
+    color: var(--navy);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.qr-card {
+    max-width: 350px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow-wrap: anywhere;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
+}
+
+#qrcode img, #qrcode canvas {
+    max-width: 100%;
+    height: auto !important;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: var(--navy);
+    font-weight: bold;
+}
+
+.eyebrow {
+    color: var(--red);
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.blood-badge {
+    margin-left: auto;
+    padding: 10px 13px;
+    color: #c8142b;
+    background: #fff0f1;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.medical-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.medical-item {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: #fbfdff;
+    overflow-wrap: anywhere;
+}
+
+.medical-item h3 {
+    margin-top: 0;
+}
+
+.medical-item p {
+    white-space: pre-wrap;
+}
+
+.contacts-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.emergency-contact-card {
+    background: #f4fbf7;
+    border: 1px solid #d6e3dd;
+    border-radius: 12px;
+    padding: 14px;
+    overflow-wrap: anywhere;
+}
+
+.call-button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 8px;
+    background: #07894f;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sos-panel {
+    margin: 28px 0;
+    padding: 22px;
+    text-align: center;
+    background: #fff5f5;
+    border: 1px solid #ffd0d5;
+    border-radius: 18px;
+}
+
+.sos-button {
+    display: block;
+    width: min(100%, 560px);
+    margin: 20px auto;
+    padding: 22px;
+    color: white;
+    background: linear-gradient(100deg, #ff263f, #d90e29);
+    border-radius: 999px;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    box-shadow: 0 7px 0 #a90b20;
+}
+
+.sos-button:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #a90b20;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    color: var(--muted);
+}
+
+.small-note {
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 650px) {
+    .form-grid, .medical-grid, .contacts-list {
+        grid-template-columns: 1fr;
+    }
+
+    .wide {
+        grid-column: auto;
+    }
+
+    .blood-badge {
+        margin-left: 0;
+    }
+}

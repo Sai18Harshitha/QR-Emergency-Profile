@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff">
+    <title>QR Emergency Profile System</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="heart">♥</div>
+    <h1>QR <span>EMERGENCY</span> PROFILE</h1>
+    <p>Scan for Medical Info • Contacts • Emergency Help</p>
+    <p class="tagline">Your Health. Our Priority.</p>
+</header>
+
+<main class="container">
+
+    <!-- CREATE PROFILE -->
+    <section id="createView" class="panel">
+        <h2>Create Your Emergency Profile</h2>
+        <p class="muted">
+            Enter your medical details and emergency contacts.
+        </p>
+
+        <form id="profileForm">
+            <div class="form-grid">
+
+                <label>Full Name *
+                    <input name="fullName" required>
+                </label>
+
+                <label>Age *
+                    <input name="age" type="number" min="0" max="120" required>
+                </label>
+
+                <label>Blood Group *
+                    <select name="bloodGroup" required>
+                        <option value="">Select</option>
+                        <option>A+</option><option>A-</option>
+                        <option>B+</option><option>B-</option>
+                        <option>AB+</option><option>AB-</option>
+                        <option>O+</option><option>O-</option>
+                        <option>Unknown</option>
+                    </select>
+                </label>
+
+                <label class="wide">Address
+                    <input name="address">
+                </label>
+
+                <label class="wide">Allergies
+                    <textarea name="allergies" rows="2"></textarea>
+                </label>
+
+                <label class="wide">Medical Conditions
+                    <textarea name="conditions" rows="2"></textarea>
+                </label>
+
+                <label class="wide">Medicines
+                    <textarea name="medications" rows="2"></textarea>
+                </label>
+
+            </div>
+
+            <h3>Emergency Contact 1 *</h3>
+            <div class="form-grid">
+                <label>Name
+                    <input name="primaryName">
+                </label>
+                <label>Phone *
+                    <input name="primaryPhone" type="tel" required>
+                </label>
+            </div>
+
+            <h3>Emergency Contact 2</h3>
+            <div class="form-grid">
+                <label>Name
+                    <input name="secondaryName">
+                </label>
+                <label>Phone
+                    <input name="secondaryPhone" type="tel">
+                </label>
+            </div>
+
+            <h3>Emergency Contact 3</h3>
+            <div class="form-grid">
+                <label>Name
+                    <input name="tertiaryName">
+                </label>
+                <label>Phone
+                    <input name="tertiaryPhone" type="tel">
+                </label>
+            </div>
+
+            <button type="submit" class="primary-button">
+                Create Profile & QR
+            </button>
+
+            <p id="formMessage" role="status"></p>
+        </form>
+    </section>
+
+    <!-- QR AND WALLPAPER -->
+    <section id="createdView" class="panel hidden">
+        <h2>Profile Registered Successfully!</h2>
+        <p>Your personalized QR code is ready.</p>
+
+        <div class="qr-card">
+            <div id="qrcode"></div>
+            <p>Scan to view my emergency medical profile</p>
+            <a id="profileLink" target="_blank" rel="noopener">
+                Open Emergency Profile
+            </a>
+        </div>
+
+        <button id="downloadWallpaperBtn" class="primary-button">
+            Download Emergency Wallpaper
+        </button>
+
+        <button id="showProfileBtn" class="secondary-button">
+            Preview Emergency Profile
+        </button>
+
+        <button id="newProfileBtn" class="secondary-button">
+            Create Another Profile
+        </button>
+
+        <p class="small-note">
+            The SOS graphic on the wallpaper is not clickable.
+            Scan the QR code to open the webpage with the working SOS button.
+        </p>
+    </section>
+
+    <!-- SCANNED PROFILE -->
+    <section id="profileView" class="panel hidden">
+
+        <div class="profile-header">
+            <div class="avatar" id="profileInitials">EP</div>
+            <div>
+                <p class="eyebrow">EMERGENCY MEDICAL ID</p>
+                <h2 id="displayName">Emergency Profile</h2>
+                <p id="displayAgeAddress"></p>
+            </div>
+            <span id="displayBlood" class="blood-badge"></span>
+        </div>
+
+        <div class="medical-grid">
+            <div class="medical-item">
+                <h3>Allergies</h3>
+                <p id="displayAllergies"></p>
+            </div>
+
+            <div class="medical-item">
+                <h3>Medical Conditions</h3>
+                <p id="displayConditions"></p>
+            </div>
+
+            <div class="medical-item">
+                <h3>Medicines</h3>
+                <p id="displayMedications"></p>
+            </div>
+
+            <div class="medical-item">
+                <h3>Address</h3>
+                <p id="displayAddress"></p>
+            </div>
+        </div>
+
+        <h3>Emergency Contacts</h3>
+        <div id="emergencyContactsList" class="contacts-list"></div>
+
+        <div class="sos-panel">
+            <h2>Need Emergency Help?</h2>
+            <p>Send an SOS request and optionally share your location.</p>
+
+            <button id="sosBtn" class="sos-button">
+                🆘 SEND SOS ALERT
+            </button>
+
+            <p id="sosStatus" role="status"></p>
+
+            <button id="locationBtn" class="secondary-button">
+                Get My Current Location
+            </button>
+            <p id="locationResult"></p>
+            <p class="small-note">
+                This demo records the SOS request on the server.
+                It does not automatically send SMS. For immediate help,
+                use your phone's emergency calling feature.
+            </p>
+        </div>
+
+        <button id="backToCreateBtn" class="secondary-button">
+            Back to Home
+        </button>
+
+    </section>
+</main>
+
+<footer>
+    <p>QR Emergency Profile System</p>
+    <p class="small-note">
+        Keep your medical information and emergency contacts updated.
+    </p>
+</footer>
+
+</body>
+</html>

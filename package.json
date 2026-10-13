@@ -1,0 +1,12 @@
+{
+  "name": "qr-emergency-profile",
+  "version": "1.0.0",
+  "description": "QR Emergency Profile System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
