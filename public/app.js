@@ -24,8 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
     $("locationBtn").addEventListener("click", getLocation);
 
     $("backToCreateBtn").addEventListener("click", () => {
-        window.location.href = "/";
-    });
+    openScanner();
+});
+
+$("scannerHomeBtn").addEventListener("click", () => {
+    stopScanner();
+    $("scannerView").classList.add("hidden");
+    $("profileView").classList.add("hidden");
+    $("createdView").classList.add("hidden");
+    $("createView").classList.remove("hidden");
+});
+
+$("stopScannerBtn").addEventListener("click", stopScanner);
 
     const qrId = new URLSearchParams(location.search).get("qr");
 
@@ -528,4 +538,65 @@ function fitText(ctx, text, maxWidth, font) {
     }
 
     return value;
+}
+let qrScanner = null;
+
+async function openScanner() {
+    $("createView").classList.add("hidden");
+    $("createdView").classList.add("hidden");
+    $("profileView").classList.add("hidden");
+    $("scannerView").classList.remove("hidden");
+
+    $("scannerMessage").textContent = "Starting camera...";
+
+    if (typeof Html5Qrcode === "undefined") {
+        $("scannerMessage").textContent =
+            "Scanner library failed to load. Check your internet connection.";
+        return;
+    }
+
+    try {
+        if (!qrScanner) {
+            qrScanner = new Html5Qrcode("qrReader");
+        }
+
+        await qrScanner.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            async (decodedText) => {
+                await stopScanner();
+
+                try {
+                    const scannedUrl = new URL(decodedText);
+
+                    if (scannedUrl.searchParams.has("qr")) {
+                        window.location.href = scannedUrl.href;
+                    } else {
+                        $("scannerMessage").textContent =
+                            "This QR code is not an emergency profile QR code.";
+                    }
+                } catch {
+                    $("scannerMessage").textContent =
+                        "The QR code does not contain a valid profile URL.";
+                }
+            },
+            () => {}
+        );
+
+        $("scannerMessage").textContent =
+            "Camera ready. Point it at the QR code.";
+    } catch (error) {
+        $("scannerMessage").textContent =
+            "Unable to start the camera. Allow camera permission and try again.";
+    }
+}
+
+async function stopScanner() {
+    if (qrScanner && qrScanner.isScanning) {
+        try {
+            await qrScanner.stop();
+        } catch (error) {
+            console.error("Could not stop scanner:", error);
+        }
+    }
 }

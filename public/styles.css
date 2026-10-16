@@ -729,3 +729,16 @@ footer {
         transition: none !important;
     }
 }
+#qrReader {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+#scannerMessage {
+    text-align: center;
+    color: var(--navy);
+    overflow-wrap: anywhere;
+}

@@ -138,7 +138,24 @@
             Scan the QR code to open the webpage with the working SOS button.
         </p>
     </section>
+    <!-- QR SCANNER -->
+<section id="scannerView" class="panel hidden">
+    <h2>Scan Emergency QR Code</h2>
+    <p class="muted">
+        Point your camera at an emergency profile QR code.
+    </p>
 
+    <div id="qrReader"></div>
+    <p id="scannerMessage" role="status"></p>
+
+    <button id="stopScannerBtn" class="secondary-button">
+        Stop Scanner
+    </button>
+
+    <button id="scannerHomeBtn" class="secondary-button">
+        Back to Home
+    </button>
+</section>
     <!-- SCANNED PROFILE -->
     <section id="profileView" class="panel hidden">
 
