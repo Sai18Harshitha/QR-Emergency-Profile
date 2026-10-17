@@ -1,9 +1,7 @@
-
 const $ = (id) => document.getElementById(id);
 
 let currentProfile = null;
 let currentLocation = null;
-
 document.addEventListener("DOMContentLoaded", () => {
     $("profileForm").addEventListener("submit", createProfile);
     $("downloadWallpaperBtn").addEventListener("click", downloadWallpaper);
@@ -24,15 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     $("locationBtn").addEventListener("click", getLocation);
 
     $("backToCreateBtn").addEventListener("click", () => {
-    openScanner();
-});
-
-$("scannerHomeBtn").addEventListener("click", () => {
-    stopScanner();
-    $("scannerView").classList.add("hidden");
     $("profileView").classList.add("hidden");
-    $("createdView").classList.add("hidden");
-    $("createView").classList.remove("hidden");
+    $("createdView").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 $("stopScannerBtn").addEventListener("click", stopScanner);
@@ -77,7 +69,6 @@ async function createProfile(event) {
 
         const profileUrl =
             `${location.origin}/?qr=${encodeURIComponent(currentProfile.id)}`;
-
         $("profileLink").href = profileUrl;
         $("profileLink").textContent = profileUrl;
 
