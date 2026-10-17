@@ -7,7 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     $("downloadWallpaperBtn").addEventListener("click", downloadWallpaper);
 
     $("showProfileBtn").addEventListener("click", () => {
-        if (currentProfile) showProfile(currentProfile);
+        if (currentProfile) {
+            showProfile(currentProfile);
+        }
     });
 
     $("newProfileBtn").addEventListener("click", () => {
@@ -20,14 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("sosBtn").addEventListener("click", sendSOS);
     $("locationBtn").addEventListener("click", getLocation);
+    $("stopScannerBtn").addEventListener("click", stopScanner);
 
     $("backToCreateBtn").addEventListener("click", () => {
-    $("profileView").classList.add("hidden");
-    $("createdView").classList.remove("hidden");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-$("stopScannerBtn").addEventListener("click", stopScanner);
+        $("profileView").classList.add("hidden");
+        $("createdView").classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
 
     const qrId = new URLSearchParams(location.search).get("qr");
 
@@ -223,24 +224,27 @@ function getLocation() {
 
     navigator.geolocation.getCurrentPosition(
         function (position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
 
-            locationResult.textContent =
-                `Latitude: ${latitude}, Longitude: ${longitude}`;
+    currentLocation = {
+        latitude,
+        longitude,
+        mapsUrl: `https://www.google.com/maps?q=${latitude},${longitude}`
+    };
 
-            const mapUrl =
-                `https://www.google.com/maps?q=${latitude},${longitude}`;
+    locationResult.textContent =
+        `Latitude: ${latitude}, Longitude: ${longitude}`;
 
-            const link = document.createElement("a");
-            link.href = mapUrl;
-            link.target = "_blank";
-            link.rel = "noopener";
-            link.textContent = "Open location in Google Maps";
+    const link = document.createElement("a");
+    link.href = currentLocation.mapsUrl;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Open location in Google Maps";
 
-            locationResult.appendChild(document.createElement("br"));
-            locationResult.appendChild(link);
-        },
+    locationResult.appendChild(document.createElement("br"));
+    locationResult.appendChild(link);
+},
         function (error) {
             const messages = {
                 1: "Location permission denied. Allow location access in browser settings.",

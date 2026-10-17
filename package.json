@@ -4,7 +4,7 @@
   "description": "QR Emergency Profile System",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "^5.1.0",
