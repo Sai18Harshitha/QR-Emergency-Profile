@@ -7,9 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("downloadWallpaperBtn").addEventListener("click", downloadWallpaper);
 
     $("showProfileBtn").addEventListener("click", () => {
-        if (currentProfile) {
-            showProfile(currentProfile);
-        }
+        if (currentProfile) showProfile(currentProfile);
     });
 
     $("newProfileBtn").addEventListener("click", () => {
@@ -22,13 +20,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("sosBtn").addEventListener("click", sendSOS);
     $("locationBtn").addEventListener("click", getLocation);
-    $("stopScannerBtn").addEventListener("click", stopScanner);
 
     $("backToCreateBtn").addEventListener("click", () => {
-        $("profileView").classList.add("hidden");
-        $("createdView").classList.remove("hidden");
+    $("profileView").classList.add("hidden");
+    $("createdView").classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
+   if ($("scannerHomeBtn")) {
+    $("scannerHomeBtn").addEventListener("click", async () => {
+        await stopScanner();
+        $("scannerView").classList.add("hidden");
+        $("createView").classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
+}
+
+if ($("stopScannerBtn")) {
+    $("stopScannerBtn").addEventListener("click", stopScanner);
+}
 
     const qrId = new URLSearchParams(location.search).get("qr");
 
@@ -227,19 +236,23 @@ function getLocation() {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
+    const mapUrl =
+        `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    // Save the rescuer's current location for SOS
     currentLocation = {
         latitude,
         longitude,
-        mapsUrl: `https://www.google.com/maps?q=${latitude},${longitude}`
+        mapsUrl: mapUrl
     };
 
     locationResult.textContent =
         `Latitude: ${latitude}, Longitude: ${longitude}`;
 
     const link = document.createElement("a");
-    link.href = currentLocation.mapsUrl;
+    link.href = mapUrl;
     link.target = "_blank";
-    link.rel = "noopener";
+    link.rel = "noopener noreferrer";
     link.textContent = "Open location in Google Maps";
 
     locationResult.appendChild(document.createElement("br"));
@@ -273,13 +286,16 @@ async function sendSOS() {
     const confirmed = confirm(
         "Submit an SOS request for this person?"
     );
-
     if (!confirmed) return;
 
     $("sosBtn").disabled = true;
     $("sosBtn").textContent = "SENDING SOS...";
 
     try {
+        if (!currentLocation) {
+    $("sosStatus").textContent =
+        "Location unavailable. Sending SOS without location...";
+    }
         const response = await fetch("/api/sos", {
             method: "POST",
             headers: {
@@ -447,14 +463,15 @@ async function downloadWallpaper() {
 
     ctx.font = "bold 37px Arial";
     ctx.fillText(
-        fitText(
-            currentProfile.contacts?.[0]?.phone || "No contact added",
-            540,
-            "bold 37px Arial"
-        ),
-        350, 1145
-    );
-
+    fitText(
+        ctx,
+        currentProfile.contacts?.[0]?.phone || "No contact added",
+        540,
+        "bold 37px Arial"
+    ),
+    350,
+    1145
+);
     ctx.fillStyle = "#4b5563";
     ctx.font = "25px Arial";
     ctx.fillText(
@@ -505,7 +522,7 @@ function roundedRect(ctx, x, y, width, height, radius, fill, stroke) {
     ctx.moveTo(x + radius, y);
     ctx.arcTo(x + width, y, x + width, y + height, radius);
     ctx.arcTo(x + width, y + height, x, y + height, radius);
-    ctx.arcTo(x, y + height, x, y, radius);
+    ctx.arcTo(x, y + height, x, y, radius);s
     ctx.arcTo(x, y, x + width, y, radius);
     ctx.closePath();
 
@@ -595,3 +612,4 @@ async function stopScanner() {
         }
     }
 }
+
